@@ -8,11 +8,34 @@
       id="my-form"
       method="POST" 
       action="https://script.google.com/macros/s/AKfycbxAiXvZegI0pSf6EbTiyZCbdd9eRFFoQ5aUEzNnjI3D/dev">
- <input name="Email" type="email" placeholder="Email" required>
+      <input name="Email" type="email" placeholder="Email" required>
       <input name="Name" type="text" placeholder="Name" required>
       <button type="submit">Send</button>
     </form>
 
-    
+    <script>
+      window.addEventListener("load", function() {
+        const form = document.getElementById('my-form');
+        form.addEventListener("submit", function(e) {
+          e.preventDefault();
+          const data = new FormData(form);
+          const action = e.target.action;
+          
+          fetch(action, {
+            method: 'POST',
+            body: data,
+            mode: "no-cors" // <--- This prevents the browser redirect/navigation
+          })
+          .then(() => {
+            alert("Success!");
+            form.reset(); // Clears the form inputs
+          })
+          .catch((error) => {
+            console.error('Error!', error);
+            alert("Something went wrong.");
+          });
+        });
+      });
+    </script>
   </body>
 </html>
